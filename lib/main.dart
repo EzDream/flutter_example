@@ -35,72 +35,102 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: colorScheme.background,
-        centerTitle: true,
-        leading: IconButton(onPressed: () => {}, icon: Icon(Icons.settings)),
-        actions: [
-          IconButton(
-              onPressed: () => {buildShowModalBottomSheet(context)},
-              icon: Icon(Icons.more_horiz))
-        ],
-        title: Text(
-          'List View',
-          style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (selected) {
+            setState(() {
+              _selectedIndex = selected;
+            });
+          },
+          currentIndex: _selectedIndex,
+          selectedItemColor: Theme.of(context).colorScheme.primary,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.layers), label: 'Layout')
+          ],
         ),
-      ),
-      body: ListView(
-        scrollDirection: Axis.vertical,
-        children: [
-          ListTile(
-            trailing: const Icon(Icons.arrow_forward_ios),
-            subtitle: const Text(
-              'More Button Styles',
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                icon: Icon(Icons.home),
+                text: 'Home',
+              ),
+              Tab(
+                icon: Icon(Icons.home),
+                text: 'Animation',
+              )
+            ],
+          ),
+          backgroundColor: colorScheme.background,
+          centerTitle: true,
+          leading: IconButton(onPressed: () => {}, icon: Icon(Icons.settings)),
+          actions: [
+            IconButton(
+                onPressed: () => {buildShowModalBottomSheet(context)},
+                icon: Icon(Icons.more_horiz))
+          ],
+          title: Text(
+            'List View',
+            style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+          ),
+        ),
+        body: ListView(
+          scrollDirection: Axis.vertical,
+          children: [
+            ListTile(
+              trailing: const Icon(Icons.arrow_forward_ios),
+              subtitle: const Text(
+                'More Button Styles',
+              ),
+              title: const Text('Buttons',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              onTap: () {
+                Navigator.pushNamed(context, Routes.buttonPage);
+              },
             ),
-            title: const Text('Buttons',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            onTap: () {
-              Navigator.pushNamed(context, Routes.buttonPage);
-            },
-          ),
-          ListTile(
-            title: const Text('Image',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text('Local and Network Image'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.pushNamed(context, Routes.imagePage);
-            },
-          ),
-          ListTile(
-            title: const Text('Radius',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text('Radius Widgets'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              if (kDebugMode) {
-                print('Local and Network Image');
-              }
-            },
-          ),
-          ListTile(
-            title: const Text(
-              'Navigator',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            ListTile(
+              title: const Text('Image',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text('Local and Network Image'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.pushNamed(context, Routes.imagePage);
+              },
             ),
-            subtitle: Text('Pass data to next page and get back'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              if (kDebugMode) {
-                print('Pass data to next page and get back');
-              }
-            },
-          )
-        ],
+            ListTile(
+              title: const Text('Radius',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text('Radius Widgets'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                if (kDebugMode) {
+                  print('Local and Network Image');
+                }
+              },
+            ),
+            ListTile(
+              title: const Text(
+                'Navigator',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              subtitle: Text('Pass data to next page and get back'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                if (kDebugMode) {
+                  print('Pass data to next page and get back');
+                }
+              },
+            )
+          ],
+        ),
       ),
     );
   }
